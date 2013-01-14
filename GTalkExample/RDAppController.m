@@ -11,6 +11,7 @@
 #import "RDLoginViewController.h"
 #import "XMPPRoster.h"
 #import "XMPPRosterMemoryStorage.h"
+#import "RDContactsListViewController.h"
 
 RDAppController* appController()
 {
@@ -44,6 +45,27 @@ RDAppController* appController()
     return nil;
 }
 
+-(RDContactsListViewController*)contactsViewControllerOrNil
+{
+    UIViewController* rootVC = [[[[UIApplication sharedApplication]delegate]window]rootViewController];
+    
+    if([rootVC isKindOfClass:[RDContactsListViewController class]])
+    {
+        return (RDContactsListViewController*)rootVC;
+    }
+    
+    if([rootVC isKindOfClass:[UINavigationController class]])
+    {
+        UINavigationController* navController = (UINavigationController*)rootVC;
+        if([navController.topViewController isKindOfClass:[RDContactsListViewController class]])
+        {
+            return (RDContactsListViewController*)(navController.topViewController);
+        }
+    }
+    
+    return nil;
+}
+
 -(void)setStatusTextToWaitingView:(NSString*)statusText
 {
     RDLoginViewController* vc = [self loginViewControllerOrNil];
@@ -67,6 +89,7 @@ RDAppController* appController()
                                                alloc] init];
     self.xmppRoster = [[XMPPRoster alloc] initWithRosterStorage:rosterstorage
                                              dispatchQueue:dispatch_get_main_queue()];
+    [self.xmppRoster setAutoFetchRoster:YES];
     [self.xmppRoster activate:self.xmppStream];
     [self.xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [self.xmppStream addDelegate:self.xmppRoster delegateQueue:dispatch_get_main_queue()];
@@ -80,21 +103,32 @@ RDAppController* appController()
     }
 }
 
+-(void)activateContactsList
+{
+    UIViewController* rootVC = [[[[UIApplication sharedApplication]delegate]window]rootViewController];
+    
+    if([rootVC isKindOfClass:[UINavigationController class]])
+    {
+        UINavigationController* navController = (UINavigationController*)rootVC;
+        
+        UIStoryboard* mainStoryBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        RDContactsListViewController* contactsVC = [mainStoryBoard instantiateViewControllerWithIdentifier:@"RDContactsListViewController"];
+        
+        [navController setViewControllers:[NSArray arrayWithObject:contactsVC] animated:YES];
+    }
+}
+
 -(void)loadContactList
 {
     NSLog(@"Will fetch roster.");
     
     [self.xmppRoster fetchRoster];
     
-#if 0
-    NSXMLElement *query = [NSXMLElement elementWithName:@"query"
-                                                  xmlns:@"jabber:iq:roster"];
-    NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
-    [iq addAttributeWithName:@"type" stringValue:@"get"];
-    [iq addChild:query];
-    
-    [self.xmppStream sendElement:iq];
-#endif
+    int64_t delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self activateContactsList];
+    });
 }
 
 #pragma mark Allocation and Deallocation
@@ -181,6 +215,13 @@ RDAppController* appController()
     
     NSLog(@"didReceivePresence, presenceType[%@], myUsername[%@], presenceFromUser[%@].",presenceType,myUsername,presenceFromUser);
     
+    int64_t delayInSeconds = 0.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        RDContactsListViewController* contactsListVC = [self contactsViewControllerOrNil];
+        [contactsListVC.tableView reloadData];
+    });
+    
 #if 0
     if (![presenceFromUser isEqualToString:myUsername]) {
         
@@ -190,9 +231,7 @@ RDAppController* appController()
         } else if ([presenceType isEqualToString:@"unavailable"]) {
             
             [_chatDelegate buddyWentOffline:[NSString stringWithFormat:@"%@@%@", presenceFromUser, @"gmail.com"]];
-            
         }
-        
     }
 #endif
 }

@@ -8,7 +8,7 @@
         <!--Login View Controller - GTalk LogIn-->
         <scene sceneID="5">
             <objects>
-                <viewController id="2" customClass="RDLoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RDLoginViewController" id="2" customClass="RDLoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -90,13 +90,54 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="817" y="-113"/>
+            <point key="canvasLocation" x="861" y="-113"/>
+        </scene>
+        <!--Contacts List View Controller - Contacts-->
+        <scene sceneID="u4z-Td-O8Y">
+            <objects>
+                <tableViewController storyboardIdentifier="RDContactsListViewController" id="7kY-pE-KAA" customClass="RDContactsListViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="SRW-cW-8uL">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="ibi-iJ-wtp" style="IBUITableViewCellStyleDefault" id="HLw-vo-Ua5">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ibi-iJ-wtp">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7kY-pE-KAA" id="mdj-s4-J0p"/>
+                            <outlet property="delegate" destination="7kY-pE-KAA" id="vPR-nQ-jg6"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Contacts" id="PhA-QW-3fl"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pZX-T3-KU8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1319" y="-113"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nc5-mh-VmO">
             <objects>
-                <navigationController id="2pW-Gd-wXJ" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="rootNavigationViewController" id="2pW-Gd-wXJ" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="FXj-Al-uFE"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="VCK-t0-rZm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -113,6 +154,9 @@
         </scene>
     </scenes>
     <classes>
+        <class className="RDContactsListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RDContactsListViewController.h"/>
+        </class>
         <class className="RDLoginViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RDLoginViewController.h"/>
             <relationships>
