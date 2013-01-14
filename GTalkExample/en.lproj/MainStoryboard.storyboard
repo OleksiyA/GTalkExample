@@ -56,7 +56,7 @@
                                     <action selector="onConnectButtonTouched:" destination="2" eventType="touchUpInside" id="SZq-FD-hAo"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" id="iHW-Go-PG1">
+                            <view hidden="YES" contentMode="scaleToFill" id="iHW-Go-PG1" userLabel="Waiting View">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -65,15 +65,20 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="color" red="1" green="0.058871576398181413" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </activityIndicatorView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Please Wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6jr-5S-NPo">
+                                    <view contentMode="scaleToFill" id="R5w-Kf-v9m" customClass="BBCyclingLabel">
                                         <rect key="frame" x="20" y="150" width="280" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="shadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <size key="shadowOffset" width="1" height="1"/>
-                                    </label>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="Please Wait..."/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="transitionEffect">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="textAlignment">
+                                                <integer key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
                             </view>
@@ -85,7 +90,7 @@
                         <outlet property="loginTextField" destination="e99-5T-ZT6" id="zoL-ms-g6n"/>
                         <outlet property="passwordTextField" destination="E7N-4L-8cS" id="gjm-On-nZZ"/>
                         <outlet property="waitingView" destination="iHW-Go-PG1" id="Aof-4z-IZo"/>
-                        <outlet property="waitingViewLabel" destination="6jr-5S-NPo" id="dw4-5C-V10"/>
+                        <outlet property="waitingViewAnimatedLabel" destination="R5w-Kf-v9m" id="AGa-gO-chz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -154,6 +159,9 @@
         </scene>
     </scenes>
     <classes>
+        <class className="BBCyclingLabel" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BBCyclingLabel.h"/>
+        </class>
         <class className="RDContactsListViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RDContactsListViewController.h"/>
         </class>
@@ -166,6 +174,7 @@
                 <relationship kind="outlet" name="loginTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="passwordTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="waitingView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="waitingViewAnimatedLabel" candidateClass="BBCyclingLabel"/>
                 <relationship kind="outlet" name="waitingViewLabel" candidateClass="UILabel"/>
             </relationships>
         </class>

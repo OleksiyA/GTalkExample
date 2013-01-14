@@ -37,6 +37,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.waitingViewAnimatedLabel.textColor = [UIColor whiteColor];
+    self.waitingViewAnimatedLabel.shadowColor = [UIColor lightGrayColor];
+    self.waitingViewAnimatedLabel.shadowOffset = CGSizeMake(1, 1);
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,10 +72,25 @@
     [self.passwordTextField resignFirstResponder];
     [self.loginTextField resignFirstResponder];
     
+    if([self.loginTextField.text length]<5 || [self.passwordTextField.text length]<4)
+    {
+        [[[UIAlertView alloc]initWithTitle:@"Enter Login and Password" message:nil delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil]show];
+        return;
+    }
+    
     [self showWaitingView];
     
     //check values for Login and passowrd
     [appController() connectToGTalkWithLogin:self.loginTextField.text withPassword:self.passwordTextField.text];
 }
 
+-(void)setWaitingText:(NSString*)text
+{
+    self.waitingViewAnimatedLabel.text = text;
+}
+
+- (void)viewDidUnload {
+    [self setWaitingViewAnimatedLabel:nil];
+    [super viewDidUnload];
+}
 @end

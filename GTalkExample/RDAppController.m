@@ -74,7 +74,7 @@ RDAppController* appController()
         return;
     }
     
-    vc.waitingViewLabel.text = statusText;
+    [vc setWaitingText:statusText];
 }
 
 -(void)connectToGTalk
